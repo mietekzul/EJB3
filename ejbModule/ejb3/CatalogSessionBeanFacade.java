@@ -36,6 +36,16 @@ public class CatalogSessionBeanFacade implements CatalogSessionBeanFacadeRemote 
 		return editions;
 	}
 
+	public List<Section> getAllSections() {
+		ArrayList<Section> sections = new ArrayList<>();
+		Query q = em.createNamedQuery("findSectionAll");
+		for (Object ed : q.getResultList()) {
+			sections.add((Section) ed);
+		}
+
+		return sections;
+	}
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public List<Article> getAllArticles() {
 		ArrayList<Article> articles = new ArrayList<>();
@@ -93,43 +103,84 @@ public class CatalogSessionBeanFacade implements CatalogSessionBeanFacadeRemote 
 	public void createTestData() {
 		// create catalog for Oracle Magazine
 		Catalog catalog1 = new Catalog();
-//		catalog1.setId(1);
+		// catalog1.setId(1);
 		catalog1.setJournal("Oracle Magazine");
 		em.persist(catalog1);
 		em.flush();
-		
-//		Add an Edtion
+
+		// Add an Edtion
 		Edition edition = new Edition();
-//		edition.setId(2);
+		// edition.setId(2);
 		edition.setEdition("January/February 2009");
 		em.persist(edition);
-//		em.refresh(edition);
+		// em.refresh(edition);
 		em.flush();
 		em.merge(catalog1);
 		catalog1.addEdition(edition);
-		
-//		Add a Features Section
+
+		// Add a Features Section
 		Section features = new Section();
-//		features.setId(31);
+		// features.setId(31);
 		features.setSectionName("FEATUES");
 		em.persist(features);
 		em.merge(edition);
 		edition.addSection(features);
-		
+
 		// Add an article to Features section
 		Article article = new Article();
-//		article.setId(41);
+		// article.setId(41);
 		article.setTitle("Launching Performance");
 		article.setSection(features);
 		em.persist(article);
 		em.merge(features);
 		features.addArticle(article);
 		em.flush();
-		
-//		Add a Technology section
+
+		// Add a Technology section
 		Section technology = new Section();
 		technology.setId(32);
 		technology.setSectionName("Technology");
+		em.persist(technology);
+		em.merge(edition);
+		edition.addSection(technology);
+		// add an article to Technology section
+		article = new Article();
+		// article.setId(42);
+		article.setSection(technology);
+		article.setTitle("On Dynamic Sampling");
+		em.persist(article);
+		em.merge(technology);
+		technology.addArticle(article);
+		em.flush();
+	}
+
+	public void deleteSomeData() {
+		// remove an article
+		Query q = em.createNamedQuery("findArticleByTitle");
+		q.setParameter("title", "Launching Performance");
+		List list = q.getResultList();
+		for (Object article : list) {
+			em.remove(article);
+		}
+	}
+
+	public void removeEdition(Edition edition) {
+		Catalog catalog = edition.getCatalog();
+		catalog.removeEdition(edition);
+
+		em.remove(edition);
+	}
+
+	public void removeSection(Section section) {
+		Edition edition = section.getEdition();
+		edition.removeSection(section);
+		em.remove(section);
+	}
+
+	public void removeArticle(Article article) {
+		Section section = article.getSection();
+		section.removeArticle(article);
+		em.remove(article);
 	}
 
 }
