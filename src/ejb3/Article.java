@@ -1,10 +1,7 @@
 package ejb3;
 
-/**
- * The persistent class for the article database table.
- * 
- */
 import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +14,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 
+/**
+ * The persistent class for the article database table.
+ * 
+ */
 @Entity
 @NamedQueries({ @NamedQuery(name = "Article.findAll", query = "SELECT a FROM Article a"),
 		@NamedQuery(name = "Article.findByTitle", query = "SELECT a from Article a WHERE a.title = :title") })

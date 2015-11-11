@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application>
+<application version="7" >
 	<display-name></display-name>
 	<module>
 		<ejb>ejb3example.jar</ejb>

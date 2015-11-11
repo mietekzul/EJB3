@@ -17,8 +17,81 @@
 		CatalogSessionBeanFacadeRemote beanRemote = (CatalogSessionBeanFacadeRemote) contextlookup(
 				"EJB3-SessionEJB#ejb3.CatalogSessionBeanFacadeRemote");
 
-		CatalogSessionBeanFacadeRemote beanRemote = (CatalogSessionBeanFacadeRemote) contextlookup(
-				"EJB3-SessionEJB#ejb3.CatalogSessionBeanFacadeRemote");
+		beanRemote.createTestData();
+		List<Catalog> catalogs = beanRemote.getAllCatalogs();
+
+		out.println("<br/>" + "List of Catalogs" + "<br/>");
+		for (Catalog catalog : catalogs) {
+			out.println("Catalog Id:");
+			out.println("<br/>" + catalog.getId() + "<br/>");
+			out.println("Catalog Journal:");
+			out.println(catalog.getJournal() + "<br/>");
+		}
+
+		out.println("<br/>" + "List of Editions" + "<br/>");
+		List<Edition> editions = beanRemote.getAllEditions();
+		for (Edition edition : editions) {
+			out.println("Catalog Id:");
+			out.println("<br/>" + edition.getId() + "<br/>");
+			out.println("Catalog Journal:");
+			out.println(edition.getEdition() + "<br/>");
+		}
+
+		out.println("<br/>" + "List of Sections" + "<br/>");
+		List<Section> sections = beanRemote.getAllSections();
+		for (Section section : sections) {
+			out.println("Section Id:");
+			out.println(section.getId() + "<br/>");
+			out.println("Section Name:");
+			out.println(section.getSectionName() + "<br/>");
+		}
+
+		out.println("<br/>" + "List of Articles" + "<br/>");
+		List<Article> articles = beanRemote.getAllArticles();
+		for (Article article : articles) {
+			out.println("Article Id:");
+			out.println(article.getId() + "<br/>");
+			out.println("Article Title:");
+			out.println(article.getTitle() + "<br/>");
+		}
+
+		out.println("Delete some Data" + "<br/>");
+		beanRemote.deleteSomeData();
+
+		catalogs = beanRemote.getAllCatalogs();
+		out.println("<br/>" + "List of Catalogs" + "<br/>");
+		for (Catalog catalog : catalogs) {
+			out.println("Catalog Id:");
+			out.println(catalog.getId() + "<br/>");
+			out.println("Catalog Journal:");
+			out.println(catalog.getJournal() + "<br/>");
+		}
+
+		out.println("<br/>" + "List of Editions" + "<br/>");
+		editions = beanRemote.getAllEditions();
+		for (Edition edition : editions) {
+			out.println("Edition Id:");
+			out.println(edition.getId() + "<br/>");
+			out.println("Edition Date:");
+			out.println(edition.getEdition() + "<br/>");
+		}
+
+		out.println("<br/>" + "List of Sections" + "<br/>");
+		sections = beanRemote.getAllSections();
+		for (Section section : sections) {
+			out.println("Section Id:");
+			out.println(section.getId() + "<br/>");
+			out.println("Section Name:");
+			out.println(section.getSectionName() + "<br/>");
+		}
+		out.println("<br/>" + "List of Articles" + "<br/>");
+		articles = beanRemote.getAllArticles();
+		for (Article article : articles) {
+			out.println("Article Id:");
+			out.println(article.getId() + "<br/>");
+			out.println("Article Title:");
+			out.println(article.getTitle() + "<br/>");
+		}
 	%>
 
 </body>
